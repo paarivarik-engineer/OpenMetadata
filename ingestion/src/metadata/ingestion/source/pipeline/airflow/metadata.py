@@ -23,6 +23,7 @@ from airflow.models.serialized_dag import SerializedDagModel
 from airflow.serialization.serialized_objects import SerializedDAG
 from pydantic import BaseModel, ValidationError
 from sqlalchemy import join
+from sqlalchemy.orm import column_property
 from sqlalchemy.orm import Session
 
 from metadata.generated.schema.api.data.createPipeline import CreatePipelineRequest
@@ -79,6 +80,7 @@ from metadata.utils.logger import ingestion_logger
 from metadata.utils.tag_utils import get_ometa_tag_and_classification, get_tag_labels
 
 logger = ingestion_logger()
+DagModel.dag_display_name = column_property(DagModel.__table__.c.dag_id)
 
 AIRFLOW_TAG_CATEGORY = "AirflowTags"
 
